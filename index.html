@@ -9,10 +9,10 @@
 <link rel="icon" href="media/icon.png" type="image/png">
 <link rel="stylesheet" href="story.css?v=4">
 <link rel="stylesheet" href="refine.css?v=5">
-<link rel="stylesheet" href="motion.css?v=2">
+<link rel="stylesheet" href="motion.css?v=3">
 <link rel="stylesheet" href="intro.css?v=2">
 <script src="story.js?v=5" defer></script>
-<script src="motion.js?v=2" defer></script>
+<script src="motion.js?v=3" defer></script>
 <script src="intro.js" defer></script>
 </head>
 <body>
@@ -118,24 +118,11 @@
     <figure class="system-image" id="model-map" data-assembly>
       <div class="model-window">
         <img src="media/concept.webp" width="1440" height="891" alt="Макет секции 1000+ Models available. Шесть моделей расположены вокруг знака Atomic Chat." loading="lazy">
+        <span class="model-cue" data-film-cue aria-hidden="true"></span>
         <button class="model-replay" type="button" data-replay="#model-map">Повторить сборку</button>
-        <div class="model-diagram" aria-hidden="true">
+        <div class="model-film" aria-hidden="true">
+          <video muted playsinline preload="none" src="media/model-convergence.mp4" tabindex="-1"></video>
           <p>1000+ Models available</p>
-          <svg viewBox="0 0 1440 891" preserveAspectRatio="none" class="model-lines">
-            <path pathLength="1" style="--delay:0ms" d="M326 257 C430 280 525 414 720 424"/>
-            <path pathLength="1" style="--delay:95ms" d="M469 412 C566 412 612 428 720 424"/>
-            <path pathLength="1" style="--delay:175ms" d="M282 626 C422 578 535 461 720 424"/>
-            <path pathLength="1" style="--delay:55ms" d="M1285 150 C1094 241 947 391 720 424"/>
-            <path pathLength="1" style="--delay:135ms" d="M1134 362 C978 366 866 424 720 424"/>
-            <path pathLength="1" style="--delay:225ms" d="M1100 586 C976 524 879 446 720 424"/>
-          </svg>
-          <span class="model-point" style="--x:22.64%;--y:28.85%;--delay:0ms">MiniMax</span>
-          <span class="model-point" style="--x:32.57%;--y:46.24%;--delay:95ms">Llama</span>
-          <span class="model-point" style="--x:19.58%;--y:70.26%;--delay:175ms">Kimi</span>
-          <span class="model-point" style="--x:89.24%;--y:16.84%;--delay:55ms">Claude</span>
-          <span class="model-point" style="--x:78.75%;--y:40.63%;--delay:135ms">Qwen</span>
-          <span class="model-point" style="--x:76.39%;--y:65.77%;--delay:225ms">DeepSeek</span>
-          <div class="model-core"><img src="media/atomic-mark.svg" alt=""></div>
         </div>
       </div>
       <figcaption>Модели и инструменты сходятся в одном интерфейсе</figcaption>
@@ -177,17 +164,8 @@
         <a class="end-action primary-action" href="prototype/"><span><small>Кликабельная версия</small><strong>Открыть прототип</strong></span><span class="action-arrow" aria-hidden="true">↗</span></a>
       </div>
       <div id="finale-assembly" class="finale-assembly" data-assembly aria-hidden="true">
-        <div class="mark-stage">
-          <div class="mark-tile">
-            <div class="mark-surface"></div>
-            <div class="mark-orbit"><svg viewBox="0 0 25 25" aria-hidden="true"><path d="M21.3388 17.8569C22.3003 18.8184 22.3003 20.3773 21.3388 21.3388C20.3773 22.3003 18.8184 22.3003 17.8569 21.3388L17.2778 20.7598C16.7046 20.1866 16.3826 19.4091 16.3826 18.5985C16.3826 17.9387 16.3837 17.5291 16.4088 17.2213C16.4325 16.9321 16.4702 16.8583 16.4754 16.8481C16.5571 16.6878 16.6876 16.5571 16.8479 16.4754C16.8581 16.4702 16.9321 16.4325 17.2213 16.4088C17.5291 16.3837 17.9387 16.3826 18.5985 16.3826C19.4091 16.3826 20.1864 16.7044 20.7595 17.2776C20.9295 17.4475 21.1228 17.6409 21.3388 17.8569Z"/><path d="M3.66119 3.66119C4.6227 2.69967 6.18163 2.69967 7.14315 3.66119L7.72222 4.24025C8.29541 4.81345 8.61743 5.59086 8.61743 6.40148C8.61743 7.06134 8.6163 7.47093 8.59116 7.77866C8.56753 8.06787 8.52979 8.14169 8.52458 8.15189C8.44287 8.31225 8.31244 8.44287 8.15208 8.52458C8.14187 8.52979 8.06787 8.56753 7.77866 8.59116C7.47093 8.6163 7.06134 8.61743 6.40148 8.61743C5.59086 8.61743 4.81345 8.29541 4.24025 7.72222L3.66119 7.14315C2.69967 6.18163 2.69967 4.6227 3.66119 3.66119Z"/><path d="M22.5379 10.0379C23.8977 10.0379 25 11.1402 25 12.5C25 13.8598 23.8977 14.9621 22.5379 14.9621H18.5985C17.3257 14.9621 16.6891 14.9621 16.203 15.2098C15.7754 15.4277 15.4277 15.7754 15.2098 16.203C14.9621 16.6891 14.9621 17.3257 14.9621 18.5985V22.5379C14.9621 23.8977 13.8598 25 12.5 25C11.1402 25 10.0379 23.8977 10.0379 22.5379C10.0379 21.3241 10.52 20.1601 11.3783 19.3019L19.3022 11.3781C20.1604 10.52 21.3243 10.0379 22.5379 10.0379Z"/><path d="M12.5 0C13.8598 0 14.9621 1.10233 14.9621 2.46212C14.9621 3.67586 14.48 4.83988 13.6217 5.69812L5.69812 13.6217C4.83988 14.48 3.67586 14.9621 2.46212 14.9621C1.10233 14.9621 0 13.8598 0 12.5C0 11.1402 1.10233 10.0379 2.46212 10.0379H6.40148C7.67432 10.0379 8.31085 10.0379 8.79702 9.79023C9.22463 9.57234 9.57234 9.22463 9.79023 8.79702C10.0379 8.31085 10.0379 7.67433 10.0379 6.40148V2.46212C10.0379 1.10233 11.1402 0 12.5 0Z"/><path d="M17.8569 3.66119C18.8184 2.69967 20.3773 2.69967 21.3388 3.66119C22.3003 4.6227 22.3003 6.18163 21.3388 7.14315L7.14311 21.3389C6.18159 22.3004 4.62267 22.3004 3.66115 21.3389C2.69963 20.3773 2.69963 18.8184 3.66115 17.8569L17.8569 3.66119Z"/></svg></div>
-            <div class="mark-reflection"></div>
-          </div>
-        </div>
-        <div class="finale-notification">
-          <span class="finale-app"><img src="media/atomic-mark.svg" width="20" height="20" alt=""></span>
-          <span><strong>Atomic Chat</strong><span>Ответ готов</span></span>
-        </div>
+        <img class="finale-still" src="media/atomic-assembly.webp" width="512" height="512" alt="" loading="lazy">
+        <video class="finale-film" muted playsinline preload="none" src="media/atomic-assembly.mp4" tabindex="-1"></video>
       </div>
       <button class="finale-replay" type="button" data-replay="#finale-assembly">Повторить сборку знака</button>
     </div>
