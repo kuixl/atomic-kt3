@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="КТ3 по дизайн-проектированию. Адаптивный лендинг и интерфейс Atomic Chat для Boiler Lab.">
+  <meta name="theme-color" content="#f6f5ef">
+  <title>Atomic Chat — проектный каркас</title>
+  <link rel="icon" href="media/icon.png" type="image/png">
+  <link rel="stylesheet" href="site.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <header class="shell mast" id="top">
+    <a class="mark" href="#top">Atomic Chat</a>
+    <nav aria-label="Разделы"><a href="#project">Каркас</a><a href="#flow">Сценарий</a><a href="#report">Отчёт</a></nav>
+  </header>
+  <main>
+    <section class="shell intro" aria-labelledby="title">
+      <p class="eyebrow">КТ3 / Проектный каркас дипломного решения</p>
+      <h1 id="title">Atomic <span>Chat.</span></h1>
+      <div class="intro-bottom">
+        <p>От первого экрана сайта<br>до первого диалога в приложении.</p>
+        <a class="round" href="prototype/">Открыть<br>прототип <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+    <section class="spread" aria-label="Макет лендинга">
+      <img src="media/hero.png" width="1440" height="725" alt="Первый экран лендинга Atomic Chat с кнопкой скачивания" fetchpriority="high">
+    </section>
+    <section class="shell project reveal" id="project" aria-labelledby="project-title">
+      <div class="split">
+        <h2 id="project-title">Что я<br>спроектировал</h2>
+        <p>Для Boiler Lab я сделал адаптивный лендинг Atomic Chat. Для диплома доработал интерфейс приложения: выбор модели, первый диалог, загрузку, ошибки и настройки.</p>
+      </div>
+      <dl class="counts"><div><dt>3</dt><dd>ширины лендинга</dd></div><div><dt>59</dt><dd>экранов и состояний в Figma</dd></div><div><dt>21</dt><dd>состояние в веб-прототипе</dd></div></dl>
+      <a class="text-link" href="https://www.figma.com/design/ORqzIhcBUxW2lnEen9ymcQ/Untitled?node-id=51-25780" target="_blank" rel="noopener">Полные макеты и компоненты в Figma ↗</a>
+    </section>
+    <section class="demo" id="flow" aria-labelledby="flow-title">
+      <div class="shell">
+        <div class="split reveal">
+          <h2 id="flow-title">Первый<br>диалог</h2>
+          <p>На лендинге человек знакомится с продуктом и переходит к скачиванию. В приложении выбирает локальную модель, отправляет запрос и получает ответ. Если генерация остановилась, можно повторить запрос или сменить модель.</p>
+        </div>
+        <div class="steps" aria-label="Шаги сценария">
+          <button type="button" data-step="landing" aria-pressed="true">Лендинг</button>
+          <button type="button" data-step="model" aria-pressed="false">Выбор модели</button>
+          <button type="button" data-step="answer" aria-pressed="false">Ответ</button>
+          <button type="button" data-step="error" aria-pressed="false">Ошибка и повтор</button>
+        </div>
+        <figure class="showcase">
+          <img id="step-image" src="media/hero.png" alt="Первый экран Atomic Chat" loading="lazy">
+          <figcaption id="step-caption" aria-live="polite">С первого экрана можно перейти к скачиванию или посмотреть возможности продукта.</figcaption>
+        </figure>
+        <a class="button invert" id="step-link" href="prototype/">Пройти этот шаг в прототипе ↗</a>
+      </div>
+    </section>
+    <section class="shell visual reveal" aria-labelledby="system-title">
+      <div class="split"><h2 id="system-title">Своя среда<br>для моделей</h2><p>На сайте модели визуально сходятся к знаку Atomic. В приложении ту же идею поддерживает постоянная навигация: чат, каталог и инструменты доступны из одного окна.</p></div>
+      <img src="media/concept.png" width="1440" height="891" loading="lazy" alt="Блок моделей со знаком Atomic Chat в центре">
+      <div class="system"><div><strong>Лендинг</strong><p>Overused Grotesk для текста, JetBrains Mono для команд. Скачивание выделено белой кнопкой.</p></div><div><strong>Приложение</strong><p>Тёмные поверхности, иконки Vuesax и отдельные состояния загрузки, пустого результата и ошибки.</p></div></div>
+    </section>
+    <section class="practice" aria-labelledby="tilda-title">
+      <div class="shell split reveal">
+        <h2 id="tilda-title">Что дальше<br>на практике</h2>
+        <ol><li>Сверить адреса скачивания, требования и формулировки с заказчиком.</li><li>Собрать первый экран в Zero Block, проверить 1440, 768 и 390 px и промежуточные ширины.</li><li>Перенести остальные блоки, FAQ и якоря. Пройти весь сценарий, проверить ссылки и опубликовать учебный черновик.</li></ol>
+      </div>
+    </section>
+    <section class="shell report reveal" id="report" aria-labelledby="report-title">
+      <div class="split"><h2 id="report-title">Полный отчёт</h2><div><p>Карта сайта и сценариев, макеты, визуальная система, обратная связь и план сборки в Tilda.</p><div class="actions"><a class="button" href="atomic-kt3.pdf" target="_blank" rel="noopener">Открыть PDF ↗</a><a class="text-link" href="atomic-kt3.pdf" download>Скачать PDF</a></div></div></div>
+      <div class="reader" id="reader" hidden>
+        <div class="reader-controls"><button type="button" id="previous">Назад</button><label>Страница <select id="page-picker"></select></label><button type="button" id="next">Дальше</button></div>
+        <a id="page-link" href="atomic-kt3.pdf#page=1" target="_blank" rel="noopener"><img id="page-image" width="1200" height="750" alt="Страница 1 отчёта КТ3" fetchpriority="low"></a>
+      </div>
+    </section>
+  </main>
+  <footer class="shell mast"><span>Константин Даровский</span><a href="#top">Наверх ↑</a></footer>
+</body>
+</html>

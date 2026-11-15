@@ -1,0 +1,65 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="../media/icon.png" type="image/png"><title>Atomic Chat / прототип</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#18191b;color:#eee;font:14px Arial,sans-serif}header{position:sticky;top:0;z-index:5;background:#242528;padding:12px 20px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}button,select{font:inherit;border:0;border-radius:5px;background:#383a3d;color:inherit;padding:9px 12px;cursor:pointer}button:hover{background:#4b4e53}button:focus-visible,select:focus-visible{outline:2px solid #72a7ff;outline-offset:2px}.active{background:#fff;color:#111}header strong{margin-right:10px}#hint{padding:12px 20px;color:#bcbec4;max-width:1150px;line-height:1.5;margin:auto}#screen{position:relative;margin:0 auto 30px;max-width:1440px;background:#050505;min-height:100px}#screen img{width:100%;display:block}.hot{position:absolute;background:transparent;border-radius:3px;padding:0}.hot:hover{background:#72a7ff22}.show .hot{background:#72a7ff30;outline:1px solid #72a7ff}#state{font-weight:normal;color:#bcbec4}#extra{max-width:1440px;margin:12px auto;display:flex;gap:8px;padding:0 18px;flex-wrap:wrap}#notice{padding:12px 20px;color:#aaa;text-align:center}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:15px 24px;background:#eee;color:#111;border-radius:5px;z-index:9;display:none}.back{color:#f4f4ef;text-underline-offset:3px;margin-right:6px}#extra:empty{display:none}.hot:focus-visible{background:#72a7ff55}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}} </style>
+<header><a class="back" href="../">← К проекту</a><strong>Atomic Chat</strong><button id="land">Лендинг</button><button id="app">Приложение</button><select id="size" aria-label="Размер лендинга"><option value="desktop">Десктоп</option><option value="tablet">Планшет</option><option value="mobile">Телефон</option></select><button id="show">Показать переходы</button><button id="reset">Сначала</button><span id="state" aria-live="polite"></span></header>
+<div id="hint"></div><div id="extra"></div><main id="screen"></main><div id="notice">Кликабельная демонстрация по макетам. Скачивание и ответы показаны как сценарий интерфейса.</div><div id="toast" role="status"></div>
+<script>
+const names={'01':'Новый диалог','02':'Выбор модели','03':'Генерация','04':'Ответ','05':'Ошибка генерации','06':'Каталог моделей','07':'Ничего не найдено','08':'Загрузка каталога','09':'Облачное подключение','10':'Ошибка ключа','11':'Подключения MCP','12':'Инструменты Skills','13':'Новый проект','14':'Интеграции','15':'API остановлен','16':'API работает','17':'Настройки','18':'Вложения','19':'История','20':'Нет подключений','1':'Загрузка модели'};
+let mode='landing',state='01',size='desktop',shown=false,timer;const sc=document.querySelector('#screen'),hint=document.querySelector('#hint'),extra=document.querySelector('#extra');
+const nav=[['New Chat','01',88],['Models','06',125],['Cloud','09',163],['Plugins','11',201],['Connectors','11',239],['Skills','12',277],['New Project','13',315],['Integrations','14',353],['API','15',391],['History','19',470],['Settings','17',850]];
+function go(s){const changed=mode!=='app';mode='app';state=s;render();if(changed)window.scrollTo(0,0)}
+function hot(label,x,y,w,h,fn,baseW=1440,baseH=900){const b=document.createElement('button');b.className='hot';b.setAttribute('aria-label',label);b.title=label;b.style.cssText=`left:${x/baseW*100}%;top:${y/baseH*100}%;width:${w/baseW*100}%;height:${h/baseH*100}%`;b.onclick=fn;sc.append(b)}
+function btn(label,fn){const b=document.createElement('button');b.textContent=label;b.onclick=fn;extra.append(b)}
+function toast(t){const el=document.querySelector('#toast');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2500)}
+function download(){mode='download';render();window.scrollTo(0,0)}
+function render(){clearTimeout(timer);sc.replaceChildren();extra.replaceChildren();sc.classList.toggle('show',shown);document.querySelector('#land').classList.toggle('active',mode!=='app');document.querySelector('#app').classList.toggle('active',mode==='app');document.querySelector('#size').style.display=mode==='app'?'none':'';sc.style.maxWidth=mode==='app'?'1440px':size==='desktop'?'1100px':size==='tablet'?'768px':'390px';const im=document.createElement('img');sc.append(im);
+if(mode==='download'){sc.style.maxWidth='700px';im.remove();sc.innerHTML='<div style="padding:40px"><h1>Переход к установке</h1><p>На рабочем сайте здесь открывается актуальная загрузка заказчика. В демонстрации можно перейти к первому запуску приложения.</p></div>';btn('Открыть приложение',()=>go('01'));btn('Вернуться на лендинг',()=>{mode='landing';render()});hint.textContent='Лендинг привёл к основному действию. Дальше проверяем первый диалог.';document.querySelector('#state').textContent='Скачивание';return}
+if(mode==='menu'){im.src='assets/menu.png';im.alt='Мобильное меню Atomic Chat';sc.style.maxWidth='390px';hot('Закрыть меню',330,16,40,40,()=>{mode='landing';render()},390,844);[105,170,235,300,365].forEach((y,i)=>hot('Раздел '+(i+1),12,y,365,45,()=>{mode='landing';render();sc.scrollIntoView();window.scrollBy(0,400+i*260)},390,844));hot('Скачать',20,764,350,48,download,390,844);btn('Закрыть меню',()=>{mode='landing';render()});hint.textContent='Выбери раздел или закрой меню.';document.querySelector('#state').textContent='Мобильное меню';return}
+if(mode==='landing'){
+  im.src='assets/'+size+'.png';im.alt='Лендинг Atomic Chat';
+  hint.textContent='Нажмите кнопку скачивания на макете. Размер лендинга можно переключить сверху.';
+  document.querySelector('#state').textContent='Лендинг';
+  btn('К скачиванию',download);
+  btn('Посмотреть приложение',()=>go('01'));
+  const layout = {
+    desktop: [1440,9794, [531,400,214,58], [753,400,156,58], 957,5335],
+    tablet: [768,8534, [180,317,244,48], [432,317,156,48], 725,4125],
+    mobile: [390,8052, [20,322,350,48], [20,378,350,48], 748,3877]
+  };
+  const [width,height,install,cloud,models,downloadSection]=layout[size];
+  const jump = y => window.scrollTo({top:window.scrollY+sc.getBoundingClientRect().top+y*sc.clientWidth/width-78,behavior:'smooth'});
+  hot('Скачать Atomic Chat',...install,download,width,height);
+  hot('Облачный режим',...cloud,()=>go('09'),width,height);
+  btn('Модели на лендинге',()=>jump(models));
+  btn('Блок установки',()=>jump(downloadSection));
+  if(size!=='desktop'){
+    btn('Открыть меню',()=>{mode='menu';render();window.scrollTo(0,0)});
+    hot('Открыть мобильное меню',width-62,8,54,55,()=>{mode='menu';render();window.scrollTo(0,0)},width,height);
+  }else{
+    hot('Скачать из шапки',1257,8,100,50,download,width,height);
+    hot('Модели',1080,8,75,50,()=>jump(models),width,height);
+  }
+  return;
+}
+im.src='assets/final-'+state+'.png';im.alt=names[state];document.querySelector('#state').textContent=names[state];hint.textContent='Нажимай на элементы макета. Если переход не очевиден, включи подсветку. Первый диалог: выберите модель и нажмите кнопку отправки.';
+nav.forEach(([n,s,y])=>hot(n,12,y,188,34,()=>go(s)));
+if(['01','02','03','04','05','18'].includes(state))hot('Выбрать модель',236,16,200,32,()=>go('02'));
+if(state==='01'){hot('Отправить пример запроса',1083,489,40,40,()=>go('03'));hot('Добавить файл',530,489,40,40,()=>go('18'))}
+if(state==='02'){hot('Выбрать локальную модель',245,105,240,115,()=>go('01'));hot('Настроить облачную модель',245,247,240,130,()=>go('09'));btn('Выбрать локальную модель',()=>go('01'))}
+if(state==='03'){hot('Остановить генерацию',1100,819,40,40,()=>go('05'));timer=setTimeout(()=>go('04'),1200)}
+if(['04','18'].includes(state)){hot('Отправить следующее сообщение',1100,819,40,40,()=>go('03'));btn('Показать ошибку генерации',()=>go('05'))}
+if(state==='05'){hot('Повторить запрос',503,232,65,34,()=>go('03'));hot('Сменить модель',580,232,115,34,()=>go('02'));btn('Повторить',()=>go('03'));btn('Сменить модель',()=>go('02'))}
+if(state==='06'){hot('Загрузить модель',1295,173,105,38,()=>go('1'));hot('Поиск без результата',236,12,1000,35,()=>go('07'));btn('Загрузить модель',()=>go('1'));btn('Пустой результат поиска',()=>go('07'));btn('Загрузка каталога',()=>go('08'))}
+if(state==='1'){btn('Загрузка завершена: открыть чат',()=>go('01'));btn('Отменить загрузку',()=>go('06'))}
+if(['07','08'].includes(state)){btn('Очистить поиск / открыть каталог',()=>go('06'));if(state==='08')timer=setTimeout(()=>go('06'),1200)}
+if(state==='09'){hot('Выбрать подключение',250,154,1138,37,()=>go('10'));btn('Проверить неверный ключ',()=>go('10'));btn('Использовать локальную модель',()=>go('01'))}
+if(state==='10'){btn('Повторить настройку',()=>go('09'));btn('Использовать локальную модель',()=>go('01'))}
+if(state==='11'){btn('Пустое состояние',()=>go('20'));btn('Инструменты',()=>go('12'))}
+if(state==='20')btn('Каталог подключений',()=>go('11'));
+if(state==='13'){btn('Создать проект',()=>{go('01');toast('Проект создан в демонстрационном сценарии')});btn('Отмена',()=>go('01'))}
+if(state==='14'){btn('Открыть локальный API',()=>go('15'))}
+if(state==='15'){hot('Запустить API',1310,13,112,36,()=>go('16'));btn('Запустить API',()=>go('16'))}
+if(state==='16'){hot('Остановить API',1310,13,112,36,()=>go('15'));btn('Остановить API',()=>go('15'))}
+if(state==='19')btn('Открыть диалог',()=>go('04'));
+}
+document.querySelector('#land').onclick=()=>{mode='landing';render();window.scrollTo(0,0)};document.querySelector('#app').onclick=()=>{go('01');window.scrollTo(0,0)};document.querySelector('#size').onchange=e=>{size=e.target.value;mode='landing';render()};document.querySelector('#reset').onclick=()=>{state='01';mode='landing';size='desktop';document.querySelector('#size').value=size;render();window.scrollTo(0,0)};document.querySelector('#show').onclick=()=>{shown=!shown;sc.classList.toggle('show',shown);document.querySelector('#show').textContent=shown?'Скрыть переходы':'Показать переходы'};window.addEventListener('keydown',e=>{if(e.key==='Escape'){mode==='menu'?(mode='landing',render()):go('01')}});const entry=new URLSearchParams(location.search).get('step');if(entry&&Object.hasOwn(names,entry)){go(entry)}else{if(matchMedia('(max-width: 600px)').matches){size='mobile';document.querySelector('#size').value=size}render()}
+</script></html>
