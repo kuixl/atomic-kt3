@@ -9,10 +9,10 @@
 <link rel="icon" href="media/icon.png" type="image/png">
 <link rel="stylesheet" href="story.css?v=4">
 <link rel="stylesheet" href="refine.css?v=5">
-<link rel="stylesheet" href="motion.css?v=3">
+<link rel="stylesheet" href="motion.css?v=4">
 <link rel="stylesheet" href="intro.css?v=2">
 <script src="story.js?v=5" defer></script>
-<script src="motion.js?v=3" defer></script>
+<script src="motion.js?v=4" defer></script>
 <script src="intro.js" defer></script>
 </head>
 <body>
@@ -115,15 +115,9 @@
 
   <section class="wrap section system" id="system">
     <div class="lead reveal"><p class="meta">Визуальная система</p><h2>Один рабочий<br>интерфейс</h2><p>На лендинге модели сходятся к знаку Atomic. В приложении та же идея выражена постоянной навигацией: чат, каталог, подключения и инструменты доступны из одного окна.</p></div>
-    <figure class="system-image" id="model-map" data-assembly>
+    <figure class="system-image" id="model-map">
       <div class="model-window">
         <img src="media/concept.webp" width="1440" height="891" alt="Макет секции 1000+ Models available. Шесть моделей расположены вокруг знака Atomic Chat." loading="lazy">
-        <span class="model-cue" data-film-cue aria-hidden="true"></span>
-        <button class="model-replay" type="button" data-replay="#model-map">Повторить сборку</button>
-        <div class="model-film" aria-hidden="true">
-          <video muted playsinline preload="none" src="media/model-convergence.mp4" tabindex="-1"></video>
-          <p>1000+ Models available</p>
-        </div>
       </div>
       <figcaption>Модели и инструменты сходятся в одном интерфейсе</figcaption>
     </figure>
@@ -163,11 +157,11 @@
         <a class="end-action" href="atomic-kt3.pdf" target="_blank" rel="noopener"><span><small>15 страниц</small><strong>Открыть PDF</strong></span><span class="action-arrow" aria-hidden="true">↗</span></a>
         <a class="end-action primary-action" href="prototype/"><span><small>Кликабельная версия</small><strong>Открыть прототип</strong></span><span class="action-arrow" aria-hidden="true">↗</span></a>
       </div>
-      <div id="finale-assembly" class="finale-assembly" data-assembly aria-hidden="true">
-        <img class="finale-still" src="media/atomic-assembly.webp" width="512" height="512" alt="" loading="lazy">
-        <video class="finale-film" muted playsinline preload="none" src="media/atomic-assembly.mp4" tabindex="-1"></video>
+      <div class="finale-assembly" aria-hidden="true">
+        <img class="finale-still" src="media/atomic-spin.webp" width="512" height="512" alt="" loading="lazy">
+        <video class="finale-film" muted playsinline preload="none" src="media/atomic-spin.mp4" tabindex="-1"></video>
       </div>
-      <button class="finale-replay" type="button" data-replay="#finale-assembly">Повторить сборку знака</button>
+      <button class="finale-replay" type="button">Повторить сборку знака</button>
     </div>
   </section>
 </main>

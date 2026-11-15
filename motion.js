@@ -1,73 +1,55 @@
-const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
-const sceneFilms = new Map(Array.from(document.querySelectorAll('[data-assembly]'), scene => [
-  scene, {film:scene.querySelector('video'), cue:scene.querySelector('[data-film-cue]') || scene}
-]));
+(() => {
+  const scene = document.querySelector('.finale-assembly');
+  const film = scene.querySelector('video');
+  const replay = document.querySelector('.finale-replay');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-function prepareFilm(film) {
-  if (motionPreference.matches || film.preload !== 'none') return;
-  film.preload = 'auto';
-  film.load();
-}
+  function prepare() {
+    if (reducedMotion.matches || film.preload !== 'none') return;
+    film.preload = 'auto';
+    film.load();
+  }
 
-function playFilm(scene, film) {
-  if (motionPreference.matches) return;
-  prepareFilm(film);
-  if (film.currentTime > 0) film.currentTime = 0;
-  film.play().catch(() => {
+  function showStill() {
     scene.classList.remove('is-playing');
     scene.removeAttribute('data-pending');
-  });
-}
-
-const supportsObserver = 'IntersectionObserver' in window;
-const preloader = supportsObserver ? new IntersectionObserver(entries => {
-  for (const entry of entries) {
-    if (!entry.isIntersecting) continue;
-    preloader.unobserve(entry.target);
-    prepareFilm(sceneFilms.get(entry.target).film);
   }
-}, {rootMargin:'420px'}) : null;
 
-const entrances = supportsObserver ? new IntersectionObserver(entries => {
-  for (const entry of entries) {
-    if (!entry.isIntersecting) continue;
-    entrances.unobserve(entry.target);
-    const scene = entry.target.closest('[data-assembly]');
-    playFilm(scene, sceneFilms.get(scene).film);
+  function play() {
+    if (reducedMotion.matches) return;
+    prepare();
+    if (film.currentTime > 0) film.currentTime = 0;
+    film.play().catch(showStill);
   }
-}, {rootMargin:'-72px 0px -96px 0px', threshold:.22}) : null;
 
-for (const [scene, {film, cue}] of sceneFilms) {
   film.addEventListener('playing', () => scene.classList.add('is-playing'));
-  film.addEventListener('ended', () => {
-    scene.removeAttribute('data-pending');
-    scene.classList.remove('is-playing');
-  });
-  film.addEventListener('error', () => {
-    scene.removeAttribute('data-pending');
-    scene.classList.remove('is-playing');
-  });
-  if (!motionPreference.matches && entrances) {
-    if (scene.matches('.finale-assembly')) scene.setAttribute('data-pending', '');
-    preloader.observe(scene);
-    entrances.observe(cue);
+  film.addEventListener('ended', showStill);
+  film.addEventListener('error', showStill);
+
+  let entrance;
+  if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+    scene.setAttribute('data-pending', '');
+    const preload = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      preload.disconnect();
+      prepare();
+    }, {rootMargin:'420px'});
+    entrance = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      entrance.disconnect();
+      play();
+    }, {rootMargin:'-72px 0px -96px 0px', threshold:.22});
+    preload.observe(scene);
+    entrance.observe(scene);
   }
-}
 
-document.querySelectorAll('[data-replay]').forEach(button => {
-  button.addEventListener('click', () => {
-    const scene = document.querySelector(button.dataset.replay);
-    const {film, cue} = sceneFilms.get(scene);
-    entrances?.unobserve(cue);
-    playFilm(scene, film);
+  replay.addEventListener('click', () => {
+    entrance?.disconnect();
+    play();
   });
-});
-
-motionPreference.addEventListener('change', ({matches}) => {
-  if (!matches) return;
-  for (const [scene, {film}] of sceneFilms) {
+  reducedMotion.addEventListener('change', ({matches}) => {
+    if (!matches) return;
     film.pause();
-    scene.classList.remove('is-playing');
-    scene.removeAttribute('data-pending');
-  }
-});
+    showStill();
+  });
+})();

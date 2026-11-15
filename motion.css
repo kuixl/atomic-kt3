@@ -1,20 +1,7 @@
 .model-window{position:relative;isolation:isolate;overflow:hidden;border-radius:clamp(10px,1.6vw,20px);background:#05070d;aspect-ratio:1440/891}
 .model-window>img{width:100%;height:100%;object-fit:contain}
-.model-cue{position:absolute;top:47.5%;left:50%;width:1px;height:1px;pointer-events:none}
-.model-film{
-  position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
-  background:#02040a;color:#fff;opacity:0;transition:opacity .48s var(--ease)
-}
-.model-film video{width:100%;height:100%;object-fit:cover}
-.model-film p{
-  position:absolute;top:17%;margin:0;font-size:clamp(14px,2.7vw,38px);
-  line-height:1.05;letter-spacing:-.045em;font-weight:700;text-align:center
-}
-#model-map.is-playing .model-film{opacity:1;transition-duration:.24s}
-.model-replay{position:absolute;top:12px;right:12px;z-index:2;background:#17233be8;color:#eef3ff;padding:7px 12px;border:0;border-radius:999px;cursor:pointer;font:inherit;font-size:clamp(10px,1.24vw,14px)}
-.model-replay:hover{background:#263b62}
 .finale-replay{font:inherit;font-size:14px;color:var(--blue);font-weight:700;background:none;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
-.model-replay:focus-visible,.finale-replay:focus-visible{outline:2px solid #8aaeff;outline-offset:4px}
+.finale-replay:focus-visible{outline:2px solid #8aaeff;outline-offset:4px}
 
 .end{background:radial-gradient(ellipse at 83% 45%,#e0e9fc,transparent 47%),#f6f7fa}
 .finale-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.64fr);gap:0 clamp(24px,5vw,80px);align-items:start}
@@ -28,7 +15,7 @@
 .finale-still,.finale-film{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .finale-film{opacity:0;transition:opacity .22s ease;pointer-events:none}
 .finale-assembly.is-playing .finale-film{opacity:1}
-.finale-assembly[data-pending] .finale-still{opacity:0}
+.finale-assembly.is-playing .finale-still,.finale-assembly[data-pending] .finale-still{opacity:0}
 .finale-replay{justify-self:start;margin-top:16px}
 .end mark{padding:0 .21em .085em .16em}
 .end mark::before{inset:-2% 0 -2%}
@@ -55,6 +42,5 @@
 }
 @media(max-width:650px){
   .end h2{font-size:clamp(39px,13vw,72px)}
-  .model-replay{top:auto;bottom:8px;right:8px}
 }
-@media(prefers-reduced-motion:reduce){.model-film,.model-replay,.finale-film,.finale-replay{display:none}.finale-assembly[data-pending] .finale-still{opacity:1}}
+@media(prefers-reduced-motion:reduce){.finale-film,.finale-replay{display:none}.finale-assembly[data-pending] .finale-still{opacity:1}}
