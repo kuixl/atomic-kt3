@@ -1,0 +1,92 @@
+.bar{background:#f5f7fbe8;transition:background .23s ease,box-shadow .23s ease}
+.bar.is-scrolled{background:#f4f6fbd9;box-shadow:0 1px 16px #182f5b12}
+.bar-inner{position:relative}
+.wordmark{display:inline-flex;align-items:center;gap:8px}
+.header-mark,.profile-mark{display:grid;place-items:center;flex:none;background:#1a2c58;border-radius:8px}
+.header-mark{width:28px;height:28px}.header-mark img{width:16px}
+.chapter-dock{position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:2;width:112px;height:36px;isolation:isolate;color:#f6f7fb}
+.chapter-dock::before{
+  content:"";position:absolute;z-index:-1;top:0;left:50%;width:248px;height:208px;
+  background:#14161a;border-radius:24px;
+  transform:translateX(-50%) scale(.4516,.1731);transform-origin:top center;
+  transition:transform .34s var(--ease),border-radius .24s ease;
+}
+.chapter-dock[data-open]::before{transform:translateX(-50%) scale(1);border-radius:25px;box-shadow:0 13px 32px #0f142536}
+.dock-trigger{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;border:0;border-radius:18px;background:#14161a;color:inherit;font:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .16s ease,transform .16s var(--ease)}
+.dock-trigger:active{transform:scale(.965)}
+.dock-trigger:focus-visible,.dock-menu a:focus-visible,.chat-replay:focus-visible{outline:2px solid #7ca7ff;outline-offset:3px}
+.dock-light{width:6px;height:6px;border-radius:50%;background:#8bb3ff;box-shadow:0 0 9px #729fff88;transition:transform .2s var(--ease),background .2s ease}
+.dock-chevron{width:6px;height:6px;border-right:1.5px solid #bac2d4;border-bottom:1.5px solid #bac2d4;transform:translateY(-2px) rotate(45deg);transition:transform .24s var(--ease)}
+.chapter-dock[data-open] .dock-chevron{transform:translateY(1px) rotate(225deg)}
+.chapter-dock[data-open] .dock-light{background:#b4cdff;transform:scale(1.25)}
+.bar .dock-menu{
+  position:absolute;top:40px;left:50%;translate:-50% 0;width:225px;display:grid;gap:2px;padding:0;color:inherit;
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .14s ease,transform .22s var(--ease),visibility 0s linear .2s;
+}
+.chapter-dock[data-open] .dock-menu{opacity:1;visibility:visible;transform:none;transition-delay:.075s}
+.dock-menu a{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:11px;padding:8px 12px;min-height:37px;white-space:nowrap;transition:background .15s ease}
+.dock-menu a span{font-size:12px;color:#acb5c9;font-variant-numeric:tabular-nums}
+.dock-menu a:focus-visible,.dock-menu a:hover{background:#313844;text-decoration:none}
+.bar .small{transition:background .18s ease,transform .17s var(--ease)}
+.bar .small:active{transform:scale(.966)}
+@media(hover:hover){.dock-trigger:hover{background:#262a32}.dock-trigger:hover .dock-light{transform:scale(1.22)}}
+
+.hero{text-align:left;background:radial-gradient(ellipse at 93% 26%,#e5eeff 0%,transparent 45%),linear-gradient(#f6f8fc 45%,#e6efff)}
+.hero-copy{display:grid;grid-template-columns:minmax(0,1.37fr) minmax(0,.86fr);align-items:end;gap:clamp(18px,4vw,66px);padding-top:clamp(72px,8vw,130px);padding-bottom:34px}
+.hero-title-group{min-width:0}
+.hero-copy h1{font-size:clamp(58px,9.3vw,144px);letter-spacing:-.065em}
+.hero-description{font-size:clamp(23px,3vw,44px)}
+.hero-links{justify-content:flex-start}
+.hero-links .pill span{transition:transform .18s var(--ease)}
+.hero-links .pill:hover span{transform:translate(2px,-2px)}
+.intro-chat{
+  max-width:460px;width:100%;justify-self:end;margin:0;overflow:hidden;border-radius:28px;
+  background:#fbfcff;
+  box-shadow:0 24px 55px #21386b1c,0 0 0 1px #ffffffce inset;
+}
+.intro-chat figcaption{margin:0;min-height:50px;padding:9px 15px;display:flex;align-items:center;gap:9px;background:#e9edf5;color:#202631;font-size:15px;font-weight:700}
+.profile-mark{width:31px;height:31px;border-radius:50%;background:#235ad9}
+.profile-mark img{width:18px}
+.chat-replay{margin-left:auto;background:#fff;border:0;border-radius:50%;width:32px;height:32px;padding:0;color:#29446f;cursor:pointer;font:inherit;font-size:21px;line-height:1;transition:background .16s ease,transform .18s var(--ease)}
+.chat-replay:hover{background:#dbe6fa;transform:rotate(-16deg)}
+.chat-replay:active{transform:scale(.93)}
+.chat-messages{display:grid;gap:14px;padding:23px 17px 24px;min-height:164px}
+.message{position:relative;width:max-content;max-width:92%;padding:9px 14px;border-radius:20px;line-height:1.26;font-size:clamp(15px,1.66vw,22px);letter-spacing:-.025em}
+.message::after{content:"";position:absolute;bottom:0;width:12px;height:13px;background:inherit}
+.is-outgoing{justify-self:end;margin-right:5px;color:white;background:#075ef0;border-bottom-right-radius:7px;transform-origin:right bottom}
+.is-outgoing::after{right:-5px;border-bottom-left-radius:10px;clip-path:polygon(0 0,60% 0,70% 72%,100% 100%,0 100%)}
+.message-arrival{position:relative;padding-left:4px;min-width:0}
+.is-incoming{background:#e9edf4;color:#14191f;border-bottom-left-radius:7px;transform-origin:left bottom}
+.is-incoming::after{left:-5px;border-bottom-right-radius:10px;clip-path:polygon(40% 0,100% 0,100% 100%,0 100%,30% 72%)}
+.message-emphasis{position:relative;isolation:isolate;white-space:nowrap}
+.message-emphasis::before{content:"";position:absolute;inset:0 -.12em -.06em;background:#bfd7fe;border-radius:.2em;z-index:-1;transform-origin:left}
+.message-reaction{position:absolute;right:-13px;top:-11px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:14px;padding:3px;border-radius:50%;background:#f8fbff;box-shadow:0 3px 9px #20376329;line-height:1}
+.typing-dots{position:absolute;top:3px;left:4px;display:flex;align-items:center;gap:5px;padding:10px 12px;border-radius:18px 18px 18px 8px;background:#e9edf4;opacity:0}
+.typing-dots i{width:6px;height:6px;border-radius:50%;background:#8491a5}
+.intro-chat.is-playing .is-outgoing{animation:chat-in .51s .16s var(--ease) both}
+.intro-chat.is-playing .is-incoming{animation:chat-in .61s 1.26s var(--ease) both}
+.intro-chat.is-playing .typing-dots{animation:typing-window .78s .63s ease both}
+.intro-chat.is-playing .typing-dots i{animation:typing-dot .59s .67s ease-in-out 1 both}
+.intro-chat.is-playing .typing-dots i:nth-child(2){animation-delay:.75s}
+.intro-chat.is-playing .typing-dots i:nth-child(3){animation-delay:.83s}
+.intro-chat.is-playing .message-emphasis::before{animation:message-select .46s 1.69s var(--ease) both}
+.intro-chat.is-playing .message-reaction{animation:chat-in .40s 1.84s var(--ease) both}
+@keyframes chat-in{0%{opacity:0;transform:translateY(14px) scale(.93)}70%{opacity:1;transform:translateY(-1px) scale(1.018)}100%{opacity:1;transform:none}}
+@keyframes typing-window{0%,100%{opacity:0;transform:translateY(4px)}19%,76%{opacity:1;transform:none}}
+@keyframes typing-dot{0%,90%,100%{transform:translateY(0);opacity:.53}47%{transform:translateY(-3px);opacity:1}}
+@keyframes message-select{from{opacity:.2;transform:scaleX(.1)}to{opacity:1;transform:scaleX(1)}}
+.hero-screen{margin-top:15px}
+@media(max-width:900px){
+  .hero-copy{grid-template-columns:minmax(0,1fr);align-items:start;gap:24px;padding-top:52px;padding-bottom:16px}
+  .hero-copy h1{font-size:clamp(52px,12vw,106px)}
+  .intro-chat{justify-self:start;width:min(100%,390px)}
+  .chat-messages{min-height:0;padding-block:15px;gap:10px}
+}
+@media(max-width:420px){
+  .bar-inner{padding-inline:12px;gap:6px}
+  .header-mark{display:none}
+  .bar .small{padding-inline:9px;font-size:12px}
+  .chapter-dock{width:102px}
+  .hero-copy h1{font-size:clamp(48px,13.4vw,57px)}
+}
+@media(prefers-reduced-motion:reduce){.typing-dots,.chat-replay{display:none}}

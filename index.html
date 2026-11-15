@@ -10,19 +10,24 @@
 <link rel="stylesheet" href="story.css?v=4">
 <link rel="stylesheet" href="refine.css?v=5">
 <link rel="stylesheet" href="motion.css">
+<link rel="stylesheet" href="intro.css">
 <script src="story.js?v=5" defer></script>
 <script src="motion.js" defer></script>
+<script src="intro.js" defer></script>
 </head>
 <body>
 <header class="bar">
   <div class="wrap bar-inner">
-    <a href="#top" class="wordmark">Atomic Chat</a>
-    <nav aria-label="Главы отчёта">
-      <a href="#project">Каркас</a>
-      <a href="#scenario">Сценарий</a>
-      <a href="#tilda">Tilda</a>
-      <a href="#report">Отчёт</a>
-    </nav>
+    <a href="#top" class="wordmark"><span class="header-mark"><img src="media/atomic-mark.svg" width="16" height="16" alt=""></span>Atomic Chat</a>
+    <div class="chapter-dock">
+      <button class="dock-trigger" type="button" aria-expanded="false" aria-controls="chapter-menu"><span class="dock-light" aria-hidden="true"></span><span>Разделы</span><span class="dock-chevron" aria-hidden="true"></span></button>
+      <nav id="chapter-menu" aria-label="Главы отчёта" class="dock-menu" inert>
+        <a href="#project">Каркас <span aria-hidden="true">01</span></a>
+        <a href="#scenario">Сценарий <span aria-hidden="true">02</span></a>
+        <a href="#tilda">Tilda <span aria-hidden="true">03</span></a>
+        <a href="#report">Отчёт <span aria-hidden="true">04</span></a>
+      </nav>
+    </div>
     <a class="pill small" href="prototype/">Прототип <span aria-hidden="true">↗</span></a>
   </div>
   <div class="progress" aria-hidden="true"></div>
@@ -30,10 +35,22 @@
 <main id="top">
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap hero-copy">
-      <p class="meta">КТ3 / Дизайн-проектирование</p>
-      <h1 id="hero-title"><span class="line"><span>Atomic <em>Chat</em></span></span></h1>
-      <p class="hero-description">От первого экрана лендинга<br>до первого диалога.</p>
-      <div class="links hero-links"><a class="pill" href="prototype/">Открыть прототип <span aria-hidden="true">↗</span></a><a class="quiet" href="#project">Смотреть отчёт <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-title-group">
+        <p class="meta">КТ3 / Дизайн-проектирование</p>
+        <h1 id="hero-title"><span class="line"><span>Atomic <em>Chat</em></span></span></h1>
+        <p class="hero-description">От первого экрана лендинга<br>до первого диалога.</p>
+        <div class="links hero-links"><a class="pill" href="prototype/">Открыть прототип <span aria-hidden="true">↗</span></a><a class="quiet" href="#project">Смотреть отчёт <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <figure class="intro-chat" id="intro-chat" aria-label="Пример первого диалога">
+        <figcaption><span class="profile-mark"><img src="media/atomic-mark.svg" width="20" height="20" alt=""></span><span>Atomic Chat</span><button type="button" class="chat-replay" aria-label="Повторить вступление">↻</button></figcaption>
+        <div class="chat-messages">
+          <p class="message is-outgoing">Как начать диалог?</p>
+          <div class="message-arrival">
+            <span class="typing-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <p class="message is-incoming">Выбери <span class="message-emphasis">локальную модель</span> и отправь запрос.<span class="message-reaction" aria-hidden="true">✨</span></p>
+          </div>
+        </div>
+      </figure>
     </div>
     <figure class="hero-screen">
       <img src="prototype/assets/final-04.png" width="1440" height="900" alt="Atomic Chat: выбранная модель, запрос и ответ" fetchpriority="high">
