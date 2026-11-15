@@ -7,8 +7,8 @@
 <meta name="description" content="Проектный каркас Atomic Chat. Дизайн лендинга, интерфейса и сценария первого диалога.">
 <title>Atomic Chat — проектный каркас</title>
 <link rel="icon" href="media/icon.png" type="image/png">
-<link rel="stylesheet" href="story.css">
-<script src="story.js" defer></script>
+<link rel="stylesheet" href="story.css?v=3">
+<script src="story.js?v=3" defer></script>
 </head>
 <body>
 <header class="bar">
@@ -45,7 +45,8 @@
       <p>Для Boiler Lab я сделал лендинг Atomic Chat с понятным переходом к скачиванию. Для диплома доработал интерфейс существующего приложения, чтобы от выбора модели до первого ответа можно было дойти в одном окне.</p>
     </div>
     <div class="composition reveal">
-      <figure class="landing-plate"><img src="media/hero.png" width="1440" height="725" alt="Первый экран лендинга Atomic Chat" loading="lazy"><figcaption>Первый экран / 1440 px</figcaption></figure>
+      <figure class="landing-plate"><img src="media/hero.png" width="1440" height="725" alt="Первый экран лендинга Atomic Chat" loading="eager"><figcaption>Лендинг / 1440 px</figcaption></figure>
+      <figure class="app-plate"><img src="prototype/assets/final-04.png" width="1440" height="900" alt="Ответ в приложении Atomic Chat" loading="lazy"><figcaption>Приложение / первый ответ</figcaption></figure>
       <figure class="mobile-plate"><img src="prototype/assets/menu.png" width="390" height="844" alt="Открытое меню мобильного лендинга" loading="lazy"><figcaption>Меню / 390 px</figcaption></figure>
     </div>
     <div class="details thirds reveal">
@@ -59,8 +60,10 @@
     <div class="wrap scenario-intro reveal"><p class="meta">Сценарий пользователя</p><h2 id="scenario-title">Первый диалог</h2><p>Пролистай сценарий или открой любой шаг в прототипе. Внутри можно включить подсветку кликабельных элементов.</p></div>
     <div class="story-grid">
       <div class="sticky-stage">
-        <figure class="stage">
+        <figure class="stage" data-scene="install">
           <a id="screen-link" href="media/download.png" target="_blank" rel="noopener" aria-label="Открыть экран в исходном размере"><img id="story-screen" src="media/download.png" width="1440" height="900" alt="Блок установки Atomic Chat"></a>
+          <div class="scene-focus" aria-hidden="true"></div>
+          <div class="scene-signal" aria-hidden="true"></div>
           <div class="notice story-notice" id="story-notice" aria-hidden="true"><span class="notice-icon" id="story-icon">↓</span><div><strong id="story-notice-title">Установка</strong><span id="story-notice-text">Переход с лендинга в приложение</span></div></div>
         </figure>
         <div class="stage-footer"><p id="stage-label">01 / Скачивание</p><a href="prototype/" class="quiet" id="stage-link">Открыть этот шаг ↗</a></div>
@@ -118,9 +121,12 @@
 
   <section class="end" id="report">
     <div class="wrap section reveal">
-      <p class="meta">Материалы к защите</p><h2><span>Проектный</span><br><mark>каркас.</mark></h2>
+      <p class="meta">Материалы к защите</p><h2><span class="end-line"><span>Проектный</span></span><span class="end-line"><mark><span>каркас.</span><i aria-hidden="true"></i><b aria-hidden="true"></b></mark></span></h2>
       <p>Полный отчёт на 15 страниц и кликабельная версия со сценарием первого запуска.</p>
-      <div class="links"><a class="pill" href="atomic-kt3.pdf" target="_blank" rel="noopener">Полный PDF <span aria-hidden="true">↗</span></a><a class="quiet" href="prototype/">Открыть прототип ↗</a></div>
+      <div class="end-actions">
+        <a class="end-action" href="atomic-kt3.pdf" target="_blank" rel="noopener"><span><small>15 страниц</small><strong>Открыть PDF</strong></span><span class="action-arrow" aria-hidden="true">↗</span></a>
+        <a class="end-action primary-action" href="prototype/"><span><small>Кликабельная версия</small><strong>Открыть прототип</strong></span><span class="action-arrow" aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </section>
 </main>
