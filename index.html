@@ -8,8 +8,8 @@
 <title>Atomic Chat — проектный каркас</title>
 <link rel="icon" href="media/icon.png" type="image/png">
 <link rel="stylesheet" href="story.css?v=4">
-<link rel="stylesheet" href="refine.css">
-<script src="story.js?v=4" defer></script>
+<link rel="stylesheet" href="refine.css?v=5">
+<script src="story.js?v=5" defer></script>
 </head>
 <body>
 <header class="bar">
@@ -65,12 +65,15 @@
           <img id="story-screen" class="screen-layer is-visible" src="media/download.webp" width="1440" height="930" alt="Блок установки Atomic Chat" loading="lazy">
           <img class="screen-layer" width="1440" height="900" alt="" aria-hidden="true">
         </figure>
-        <div class="stage-footer"><p id="stage-label">01 / Скачивание</p><div><button class="zoom-control" type="button" data-zoom="media/download.webp" id="stage-zoom">Увеличить <span aria-hidden="true">+</span></button><a href="prototype/" class="quiet" id="stage-link">Открыть в прототипе ↗</a></div></div>
-        <nav class="route" aria-label="Шаги сценария"><a href="#install" aria-current="step">Установка</a><a href="#model">Модель</a><a href="#generating">Запрос</a><a href="#answer">Ответ</a><a href="#catalog">Каталог</a><a href="#error">Ошибка</a></nav>
+        <div class="stage-footer"><p id="stage-label">01 / Скачивание</p><div><button class="zoom-control" type="button" data-zoom="media/download.webp" id="stage-zoom">Увеличить <span aria-hidden="true">+</span></button><a href="prototype/?view=download" class="quiet" id="stage-link">Открыть в прототипе ↗</a></div></div>
+        <nav class="route" aria-label="Шаги сценария">
+          <div class="route-main"><span>Основной путь</span><div><a href="#install" aria-current="step">Установка</a><a href="#model">Модель</a><a href="#generating">Запрос</a><a href="#answer">Ответ</a></div></div>
+          <div class="route-branches"><span>Другие ситуации</span><div><a href="#catalog">Каталог</a><a href="#error">Ошибка</a></div></div>
+        </nav>
       </div>
       <div class="beats">
         <article class="beat" id="install" data-scene="install">
-          <p class="meta">01 / Скачивание</p><h3>Сначала<br>лендинг</h3><p>С первого экрана можно сразу перейти к скачиванию. Если нужно больше информации, меню ведёт к возможностям, моделям и FAQ.</p><p class="scene-detail">Список разделён на Desktop и Mobile. Пользователь сначала находит свою платформу, затем выбирает подходящий вариант установки.</p><img class="mobile-scene" src="media/download.webp" alt="Блок установки" loading="lazy"><a class="quiet" href="prototype/">Открыть лендинг в прототипе ↗</a>
+          <p class="meta">01 / Скачивание</p><h3>Сначала<br>лендинг</h3><p>С первого экрана можно сразу перейти к скачиванию. Если нужно больше информации, меню ведёт к возможностям, моделям и FAQ.</p><p class="scene-detail">Список разделён на Desktop и Mobile. Пользователь сначала находит свою платформу, затем выбирает подходящий вариант установки.</p><img class="mobile-scene" src="media/download.webp" alt="Блок установки" loading="lazy"><a class="quiet" href="prototype/?view=download">Открыть шаг скачивания ↗</a>
         </article>
         <article class="beat" id="model" data-scene="model">
           <p class="meta">02 / Выбор модели</p><h3>Модель<br>видна сразу</h3><p>New Chat начинается с выбора модели. В списке разведены локальные и облачные варианты, а текущая модель отмечена галочкой.</p><img class="mobile-scene" src="prototype/assets/final-02.png" alt="Список моделей" loading="lazy"><a class="quiet" href="prototype/?step=02">Открыть выбор модели ↗</a>
