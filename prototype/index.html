@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="../media/icon.png" type="image/png"><title>Atomic Chat / прототип</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#18191b;color:#eee;font:14px Arial,sans-serif}header{position:sticky;top:0;z-index:5;background:#242528;padding:12px 20px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}button,select{font:inherit;border:0;border-radius:5px;background:#383a3d;color:inherit;padding:9px 12px;cursor:pointer}button:hover{background:#4b4e53}button:focus-visible,select:focus-visible{outline:2px solid #72a7ff;outline-offset:2px}.active{background:#fff;color:#111}header strong{margin-right:10px}#hint{padding:12px 20px;color:#bcbec4;max-width:1150px;line-height:1.5;margin:auto}#screen{position:relative;margin:0 auto 30px;max-width:1440px;background:#050505;min-height:100px}#screen img{width:100%;display:block}.hot{position:absolute;background:transparent;border-radius:3px;padding:0}.hot:hover{background:#72a7ff22}.show .hot{background:#72a7ff30;outline:1px solid #72a7ff}#state{font-weight:normal;color:#bcbec4}#extra{max-width:1440px;margin:12px auto;display:flex;gap:8px;padding:0 18px;flex-wrap:wrap}#notice{padding:12px 20px;color:#aaa;text-align:center}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:15px 24px;background:#eee;color:#111;border-radius:5px;z-index:9;display:none}.back{color:#f4f4ef;text-underline-offset:3px;margin-right:6px}#extra:empty{display:none}.hot:focus-visible{background:#72a7ff55}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}} </style><link rel="stylesheet" href="demo.css?v=4">
+<style>*{box-sizing:border-box}body{margin:0;background:#18191b;color:#eee;font:14px Arial,sans-serif}header{position:sticky;top:0;z-index:5;background:#242528;padding:12px 20px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}button,select{font:inherit;border:0;border-radius:5px;background:#383a3d;color:inherit;padding:9px 12px;cursor:pointer}button:hover{background:#4b4e53}button:focus-visible,select:focus-visible{outline:2px solid #72a7ff;outline-offset:2px}.active{background:#fff;color:#111}header strong{margin-right:10px}#hint{padding:12px 20px;color:#bcbec4;max-width:1150px;line-height:1.5;margin:auto}#screen{position:relative;margin:0 auto 30px;max-width:1440px;background:#050505;min-height:100px}#screen img{width:100%;display:block}.hot{position:absolute;background:transparent;border-radius:3px;padding:0}.hot:hover{background:#72a7ff22}.show .hot{background:#72a7ff30;outline:1px solid #72a7ff}#state{font-weight:normal;color:#bcbec4}#extra{max-width:1440px;margin:12px auto;display:flex;gap:8px;padding:0 18px;flex-wrap:wrap}#notice{padding:12px 20px;color:#aaa;text-align:center}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:15px 24px;background:#eee;color:#111;border-radius:5px;z-index:9;display:none}.back{color:#f4f4ef;text-underline-offset:3px;margin-right:6px}#extra:empty{display:none}.hot:focus-visible{background:#72a7ff55}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}} </style><link rel="stylesheet" href="demo.css?v=6">
 <header><a class="back" href="../">← К проекту</a><strong>Atomic Chat</strong><button id="land">Лендинг</button><button id="app">Приложение</button><select id="size" aria-label="Размер лендинга"><option value="desktop">Десктоп</option><option value="tablet">Планшет</option><option value="mobile">Телефон</option></select><button id="show">Показать переходы</button><button id="reset">Сначала</button><span id="state" aria-live="polite"></span></header>
 <div id="hint"></div><div id="extra"></div><main id="screen"><p class="initial-frame" role="status">Открываю макет…</p></main><div id="notice">Кликабельная демонстрация по макетам. Скачивание и ответы показаны как сценарий интерфейса.</div><div id="toast" role="status"></div>
 <script>
@@ -80,6 +80,79 @@ async function render(resetScroll = false) {
 }
 function hot(label,x,y,w,h,fn,baseW=1440,baseH=900){const b=document.createElement('button');b.className='hot';b.setAttribute('aria-label',label);b.title=label;b.style.cssText=`left:${x/baseW*100}%;top:${y/baseH*100}%;width:${w/baseW*100}%;height:${h/baseH*100}%`;b.onclick=fn;frameLayer.append(b)}
 function btn(label,fn){const b=document.createElement('button');b.textContent=label;b.onclick=fn;toolsLayer.append(b)}
+const switches = new Map([['Exa',true],['Serper',false],['apple-calendar',true],['audio-transcribe',true],['currency',false],['docker',true],['ffmpeg',false]]);
+let selectedProvider = 'OpenRouter';
+function anchor(element,x,y,w,h){
+  element.style.cssText=`left:${x/14.4}%;top:${y/9}%;width:${w/14.4}%;height:${h/9}%`;
+}
+function makeSwitch(name,x,y,statusX=null) {
+  const control = document.createElement('button');
+  control.className='frame-switch';
+  control.type='button';
+  control.setAttribute('role','switch');
+  control.setAttribute('aria-label',name);
+  control.append(document.createElement('span'));
+  anchor(control,x,y,30,18);
+  let status;
+  if(statusX!==null){
+    status=document.createElement('span');
+    status.className='connector-state';
+    anchor(status,statusX,y-4,102,26);
+    frameLayer.append(status);
+  }
+  function update(){
+    const enabled=switches.get(name);
+    control.setAttribute('aria-checked',String(enabled));
+    if(status){
+      status.textContent=enabled?'Connected':'Inactive';
+      status.dataset.connected=String(enabled);
+    }
+  }
+  update();
+  control.onclick=()=>{
+    switches.set(name,!switches.get(name));
+    update();
+    hint.textContent=name+(switches.get(name)?' включён в демо.':' выключен в демо.');
+  };
+  frameLayer.append(control);
+}
+function openDemoPanel(title,text,actions){
+  const old=sc.querySelector('.demo-popover');
+  if(old){old.remove();return;}
+  const panel=document.createElement('section');
+  panel.className='demo-popover';
+  panel.setAttribute('aria-label',title);
+  const heading=document.createElement('strong');
+  heading.textContent=title;
+  const caption=document.createElement('p');
+  caption.textContent=text;
+  panel.append(heading,caption);
+  for(const [label,action] of [...actions,['Закрыть',()=>panel.remove()]]){
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=label;
+    button.onclick=action;
+    panel.append(button);
+  }
+  panel.addEventListener('keydown',event=>{
+    if(event.key!=='Escape')return;
+    event.stopPropagation();
+    const previous=panel.previousElementSibling;
+    panel.remove();
+    if(previous?.matches('button'))previous.focus();
+  });
+  sc.querySelector('.demo-frame').append(panel);
+  panel.querySelector('button').focus();
+}
+function selectProvider(){
+  openDemoPanel('Облачное подключение','Выбери провайдера для демонстрации настройки.',[
+    ...['OpenRouter','OpenAI','Локальная модель'].map(name=>[name,()=>{
+      if(name==='Локальная модель'){go('01');return;}
+      selectedProvider=name;
+      go('10');
+    }])
+  ]);
+}
 function toast(t){const el=document.querySelector('#toast');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2500)}
 function download(){mode='download';render(true)}
 function buildFrame(im) {
@@ -136,9 +209,23 @@ if(state==='05'){hot('Повторить запрос',502,233,66,32,()=>go('03'
 if(state==='06'){hot('Загрузить модель',1295,173,105,38,()=>go('1'));hot('Поиск без результата',236,12,1000,35,()=>go('07'));btn('Загрузить модель',()=>go('1'));btn('Пустой результат поиска',()=>go('07'));btn('Загрузка каталога',()=>go('08'))}
 if(state==='1'){btn('Загрузка завершена: открыть чат',()=>go('01'));btn('Отменить загрузку',()=>go('06'))}
 if(['07','08'].includes(state)){btn('Очистить поиск / открыть каталог',()=>go('06'));if(state==='08')advance='06'}
-if(state==='09'){hot('Выбрать подключение',250,154,1138,37,()=>go('10'));btn('Проверить неверный ключ',()=>go('10'));btn('Использовать локальную модель',()=>go('01'))}
-if(state==='10'){btn('Повторить настройку',()=>go('09'));btn('Использовать локальную модель',()=>go('01'))}
-if(state==='11'){btn('Пустое состояние',()=>go('20'));btn('Инструменты',()=>go('12'))}
+if(state==='09'){hot('Выбрать подключение',1156,101,240,33,selectProvider);btn('Выбрать провайдера',selectProvider);btn('Использовать локальную модель',()=>go('01'))}
+if(state==='10'){hint.textContent=selectedProvider+': в демо показан ответ на неверный ключ. Можно повторить настройку или продолжить локально.';btn('Повторить настройку',()=>go('09'));btn('Использовать локальную модель',()=>go('01'))}
+if(state==='11'){
+  makeSwitch('Exa',540,290,253);
+  makeSwitch('Serper',908,290,621);
+  const demonstrate=name=>openDemoPanel(name,'Демонстрация подключения. Вводить ключи и данные аккаунта не требуется.',[['Показать результат',()=>{sc.querySelector('.demo-popover')?.remove();hint.textContent=name+': настройка открыта в демонстрации.';}]]);
+  hot('Добавить сервер',1316,16,100,32,()=>demonstrate('Новый сервер'));
+  hot('Импортировать конфигурацию',1200,16,105,32,()=>demonstrate('Импорт конфигурации'));
+  hot('Повторить подключение Notion',504,459,65,32,()=>demonstrate('Notion'));
+  for(const [name,x,y] of [['Linear',1233,276],['Sentry',865,460],['Supabase',1233,460]])hot('Войти в '+name,x,y,73,32,()=>demonstrate(name));
+  btn('Пустое состояние',()=>go('20'));
+  btn('Инструменты',()=>go('12'));
+}
+if(state==='12'){
+  ['apple-calendar','audio-transcribe','currency','docker','ffmpeg'].forEach((name,i)=>makeSwitch(name,496,88+i*86));
+  hot('Добавить инструмент',1314,16,102,32,()=>openDemoPanel('Новый инструмент','В полном макете здесь задаются название и инструкция для модели.',[]));
+}
 if(state==='20')btn('Каталог подключений',()=>go('11'));
 if(state==='13'){btn('Создать проект',()=>{go('01');toast('Проект создан в демонстрационном сценарии')});btn('Отмена',()=>go('01'))}
 if(state==='14'){btn('Открыть локальный API',()=>go('15'))}
