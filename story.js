@@ -1,76 +1,92 @@
-const scenes = {
-  install: ['media/download.png', 'Блок установки Atomic Chat', '01 / Скачивание', 'Установка', 'Переход с лендинга в приложение', '↓', 'prototype/'],
-  model: ['prototype/assets/final-02.png', 'Список локальных и облачных моделей', '02 / Выбор модели', 'Модель выбрана', 'Можно начать локальный диалог', '✓', 'prototype/?step=02'],
-  answer: ['prototype/assets/final-04.png', 'Первый ответ модели', '03 / Ответ', 'Ответ получен', 'Модель завершила запрос', '✓', 'prototype/?step=04'],
-  catalog: ['prototype/assets/final-1.png', 'Ход загрузки модели', '04 / Каталог', 'Модель загружается', 'Прогресс виден прямо в каталоге', '↓', 'prototype/?step=06'],
-  error: ['prototype/assets/final-05.png', 'Ошибка генерации', '05 / Восстановление', 'Генерация остановлена', 'Можно повторить запрос или сменить модель', '!', 'prototype/?step=05']
-};
-const stage = document.querySelector('#story-screen');
-const notice = document.querySelector('#story-notice');
-const stageFrame = stage.closest('.stage');
-const screenLink = document.querySelector('#screen-link');
 const beats = Array.from(document.querySelectorAll('.beat'));
+const frames = Array.from(document.querySelectorAll('.screen-layer'));
+const route = Array.from(document.querySelectorAll('.route a'));
+const stageLabel = document.querySelector('#stage-label');
+const stageLink = document.querySelector('#stage-link');
+const stageZoom = document.querySelector('#stage-zoom');
 const compact = matchMedia('(max-width: 800px)');
-const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const images = Object.fromEntries(Object.entries(scenes).map(([name, [url]]) => {
-  const image = new Image();
-  image.src = url;
-  return [name, image];
-}));
-let current = 'install';
-let displayed = 'install';
+const assets = new Map();
+let active = 0;
+let visibleLayer = 0;
+let revision = 0;
 let queued = false;
+let fadeCleanup;
 
-async function setScene(name) {
-  if (name === current) return;
-  current = name;
-  const [image, alt, label, title, message, icon, target] = scenes[name];
-  try { await images[name].decode(); } catch { /* The linked frame remains available. */ }
-  if (current !== name || displayed === name) return;
-  displayed = name;
-  screenLink.querySelector('.outgoing')?.remove();
-  if (!reduced.matches) {
-    const outgoing = stage.cloneNode();
-    outgoing.removeAttribute('id');
-    outgoing.alt = '';
-    outgoing.setAttribute('aria-hidden', 'true');
-    outgoing.className = 'outgoing';
-    outgoing.addEventListener('animationend', () => outgoing.remove(), {once:true});
-    screenLink.prepend(outgoing);
+function loadImage(src) {
+  if (!assets.has(src)) {
+    const image = new Image();
+    image.src = src;
+    assets.set(src, image.decode().catch(error => {
+      assets.delete(src);
+      throw error;
+    }));
   }
-  stageFrame.dataset.scene = name;
-  stage.src = image;
-  stage.alt = alt;
-  screenLink.href = image;
-  document.querySelector('#stage-label').textContent = label;
-  document.querySelector('#stage-link').href = target;
-  document.querySelector('#story-icon').textContent = icon;
-  document.querySelector('#story-notice-title').textContent = title;
-  document.querySelector('#story-notice-text').textContent = message;
-  stage.classList.remove('swap');
-  notice.classList.remove('pop');
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    if (displayed !== name) return;
-    stage.classList.add('swap');
-    notice.classList.add('pop');
-  }));
+  return assets.get(src);
+}
+
+const scenes = beats.map(beat => {
+  const image = beat.querySelector('img');
+  return {
+    src: image.getAttribute('src'),
+    alt: image.alt,
+    label: beat.querySelector('.meta').textContent,
+    href: beat.querySelector('a').getAttribute('href')
+  };
+});
+
+route.forEach((link, index) => {
+  link.addEventListener('click', event => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const target = beats[index];
+    history.replaceState(null, '', '#' + target.id);
+    target.scrollIntoView({behavior:'instant',block:'start'});
+    showScene(index);
+  });
+});
+
+async function showScene(index) {
+  if (index === active) return;
+  active = index;
+  const change = ++revision;
+  const {src, alt, label, href} = scenes[index];
+  const nextLayer = 1 - visibleLayer;
+  const nextFrame = frames[nextLayer];
+  try {
+    await loadImage(src);
+    if (change !== revision) return;
+    clearTimeout(fadeCleanup);
+    nextFrame.classList.remove('underlay');
+    nextFrame.src = src;
+    await nextFrame.decode();
+  } catch {
+    if (change === revision) active = -1;
+    return;
+  }
+  if (change !== revision) return;
+  const previous = frames[visibleLayer];
+  previous.classList.add('underlay');
+  previous.classList.remove('is-visible');
+  previous.setAttribute('aria-hidden', 'true');
+  nextFrame.alt = alt;
+  nextFrame.removeAttribute('aria-hidden');
+  nextFrame.classList.add('is-visible');
+  visibleLayer = nextLayer;
+  fadeCleanup = setTimeout(() => previous.classList.remove('underlay'), 210);
+  stageLabel.textContent = label;
+  stageLink.href = href;
+  stageZoom.dataset.zoom = src;
+  route.forEach((link, i) => i === index ? link.setAttribute('aria-current', 'step') : link.removeAttribute('aria-current'));
+  if (scenes[index + 1]) loadImage(scenes[index + 1].src).catch(() => {});
 }
 
 function update() {
   queued = false;
   const range = document.documentElement.scrollHeight - innerHeight;
-  document.documentElement.style.setProperty('--progress', range > 0 ? Math.min(1, Math.max(0, scrollY / range)) : 0);
-  const composition = document.querySelector('.composition');
-  if (!reduced.matches && !compact.matches) {
-    const rect = composition.getBoundingClientRect();
-    if (rect.bottom > 0 && rect.top < innerHeight) {
-      const offset = Math.max(-24, Math.min(24, (innerHeight * .45 - rect.top) * .055));
-      composition.style.setProperty('--drift', offset.toFixed(1) + 'px');
-    }
-  }
+  document.documentElement.style.setProperty('--progress', range > 0 ? scrollY / range : 0);
   if (compact.matches) return;
-  const active = beats.find(beat => beat.getBoundingClientRect().bottom >= innerHeight * .56);
-  setScene((active || beats.at(-1)).dataset.scene);
+  const index = beats.findIndex(beat => beat.getBoundingClientRect().bottom >= innerHeight * .52);
+  showScene(index < 0 ? beats.length - 1 : index);
 }
 
 function scheduleUpdate() {
@@ -84,18 +100,54 @@ window.addEventListener('load', scheduleUpdate);
 scheduleUpdate();
 
 if ('IntersectionObserver' in window) {
-  const reveals = new IntersectionObserver(entries => {
+  const reveal = new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
       entry.target.classList.add('revealed');
-      reveals.unobserve(entry.target);
+      reveal.unobserve(entry.target);
     }
-  }, {threshold:.08});
-  for (const node of document.querySelectorAll('.reveal, .beat')) reveals.observe(node);
-  const stageEntry = new IntersectionObserver(entries => {
+  }, {threshold: .08});
+  for (const node of document.querySelectorAll('.reveal, .beat')) reveal.observe(node);
+  const warmup = new IntersectionObserver(entries => {
     if (!entries.some(entry => entry.isIntersecting)) return;
-    stageFrame.classList.add('on-screen');
-    stageEntry.disconnect();
-  }, {threshold:.28});
-  stageEntry.observe(stageFrame);
+    if (compact.matches) return;
+    loadImage(scenes[1].src).catch(() => {});
+    loadImage(scenes[2].src).catch(() => {});
+    warmup.disconnect();
+  }, {rootMargin: '550px'});
+  warmup.observe(document.querySelector('#scenario'));
 }
+
+const dialog = document.querySelector('#image-dialog');
+const viewport = dialog.querySelector('.image-viewport');
+const detail = viewport.querySelector('img');
+let scale = 1;
+
+function zoom(value) {
+  scale = Math.max(1, Math.min(3, value));
+  detail.style.width = scale * 100 + '%';
+  document.querySelector('#zoom-out').disabled = scale <= 1;
+  document.querySelector('#zoom-in').disabled = scale >= 3;
+}
+
+for (const beat of beats) {
+  const button = document.createElement('button');
+  button.className = 'zoom-control mobile-zoom';
+  button.type = 'button';
+  button.dataset.zoom = beat.querySelector('img').getAttribute('src');
+  button.textContent = 'Увеличить экран +';
+  beat.querySelector('img').after(button);
+}
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-zoom]');
+  if (!button) return;
+  detail.src = button.dataset.zoom;
+  detail.alt = button.closest('figure, article')?.querySelector('img')?.alt || 'Экран Atomic Chat';
+  dialog.showModal();
+  zoom(1);
+  viewport.scrollTo(0, 0);
+});
+document.querySelector('#zoom-in').onclick = () => zoom(scale + .5);
+document.querySelector('#zoom-out').onclick = () => zoom(scale - .5);
+dialog.addEventListener('click', event => {if (event.target === dialog) dialog.close();});

@@ -9,6 +9,10 @@ button.active:not(.hot){background:#2864ff;color:#fff}
 .back{color:#c5d6ff;text-decoration:none}
 .back:hover{text-decoration:underline}
 #hint,#notice{color:#bbc5db}
-#screen img{animation:frame .3s ease-out both}
-@keyframes frame{from{opacity:.48}to{opacity:1}}
-@media(prefers-reduced-motion:reduce){#screen img{animation:none}}
+.demo-frame{position:relative}
+#screen img{display:block;width:100%;height:auto}
+#screen[aria-busy=true] .hot{pointer-events:none}
+.initial-frame{display:grid;place-items:center;min-height:min(58vw,65vh);margin:0;color:#aeb6c8}
+.install-copy{padding:clamp(22px,4vw,44px);line-height:1.5}
+.install-copy h1{margin:0 0 12px}
+.install-copy p{margin:0}

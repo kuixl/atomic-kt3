@@ -7,8 +7,9 @@
 <meta name="description" content="Проектный каркас Atomic Chat. Дизайн лендинга, интерфейса и сценария первого диалога.">
 <title>Atomic Chat — проектный каркас</title>
 <link rel="icon" href="media/icon.png" type="image/png">
-<link rel="stylesheet" href="story.css?v=3">
-<script src="story.js?v=3" defer></script>
+<link rel="stylesheet" href="story.css?v=4">
+<link rel="stylesheet" href="refine.css">
+<script src="story.js?v=4" defer></script>
 </head>
 <body>
 <header class="bar">
@@ -33,8 +34,8 @@
       <div class="links hero-links"><a class="pill" href="prototype/">Открыть прототип <span aria-hidden="true">↗</span></a><a class="quiet" href="#project">Смотреть отчёт <span aria-hidden="true">↓</span></a></div>
     </div>
     <figure class="hero-screen">
-      <a href="prototype/assets/final-04.png" target="_blank" rel="noopener" aria-label="Открыть экран диалога в исходном размере"><img src="prototype/assets/final-04.png" width="1440" height="900" alt="Atomic Chat: выбранная модель, запрос и ответ" fetchpriority="high"></a>
-      <div class="notice hero-notice" aria-hidden="true"><span class="notice-icon">✓</span><div><strong>Ответ получен</strong><span>Локальная модель завершила запрос</span></div></div>
+      <img src="prototype/assets/final-04.png" width="1440" height="900" alt="Atomic Chat: выбранная модель, запрос и ответ" fetchpriority="high">
+      <button class="zoom-control" type="button" data-zoom="prototype/assets/final-04.png">Увеличить экран <span aria-hidden="true">+</span></button>
     </figure>
   </section>
 
@@ -45,7 +46,7 @@
       <p>Для Boiler Lab я сделал лендинг Atomic Chat с понятным переходом к скачиванию. Для диплома доработал интерфейс существующего приложения, чтобы от выбора модели до первого ответа можно было дойти в одном окне.</p>
     </div>
     <div class="composition reveal">
-      <figure class="landing-plate"><img src="media/hero.png" width="1440" height="725" alt="Первый экран лендинга Atomic Chat" loading="eager"><figcaption>Лендинг / 1440 px</figcaption></figure>
+      <figure class="landing-plate"><img src="media/hero.webp" width="1440" height="725" alt="Первый экран лендинга Atomic Chat" loading="lazy"><figcaption>Лендинг / 1440 px</figcaption></figure>
       <figure class="app-plate"><img src="prototype/assets/final-04.png" width="1440" height="900" alt="Ответ в приложении Atomic Chat" loading="lazy"><figcaption>Приложение / первый ответ</figcaption></figure>
       <figure class="mobile-plate"><img src="prototype/assets/menu.png" width="390" height="844" alt="Открытое меню мобильного лендинга" loading="lazy"><figcaption>Меню / 390 px</figcaption></figure>
     </div>
@@ -57,32 +58,34 @@
   </section>
 
   <section class="screen-story" id="scenario" aria-labelledby="scenario-title">
-    <div class="wrap scenario-intro reveal"><p class="meta">Сценарий пользователя</p><h2 id="scenario-title">Первый диалог</h2><p>Пролистай сценарий или открой любой шаг в прототипе. Внутри можно включить подсветку кликабельных элементов.</p></div>
+    <div class="wrap scenario-intro reveal"><p class="meta">Сценарий пользователя</p><h2 id="scenario-title">Первый диалог</h2><p>Скачивание → выбор модели → запрос → ответ. Ниже можно пройти этот путь по шагам и посмотреть, что происходит, если модели ещё нет или запрос прервался.</p></div>
     <div class="story-grid">
       <div class="sticky-stage">
         <figure class="stage" data-scene="install">
-          <a id="screen-link" href="media/download.png" target="_blank" rel="noopener" aria-label="Открыть экран в исходном размере"><img id="story-screen" src="media/download.png" width="1440" height="900" alt="Блок установки Atomic Chat"></a>
-          <div class="scene-focus" aria-hidden="true"></div>
-          <div class="scene-signal" aria-hidden="true"></div>
-          <div class="notice story-notice" id="story-notice" aria-hidden="true"><span class="notice-icon" id="story-icon">↓</span><div><strong id="story-notice-title">Установка</strong><span id="story-notice-text">Переход с лендинга в приложение</span></div></div>
+          <img id="story-screen" class="screen-layer is-visible" src="media/download.webp" width="1440" height="930" alt="Блок установки Atomic Chat" loading="lazy">
+          <img class="screen-layer" width="1440" height="900" alt="" aria-hidden="true">
         </figure>
-        <div class="stage-footer"><p id="stage-label">01 / Скачивание</p><a href="prototype/" class="quiet" id="stage-link">Открыть этот шаг ↗</a></div>
+        <div class="stage-footer"><p id="stage-label">01 / Скачивание</p><div><button class="zoom-control" type="button" data-zoom="media/download.webp" id="stage-zoom">Увеличить <span aria-hidden="true">+</span></button><a href="prototype/" class="quiet" id="stage-link">Открыть в прототипе ↗</a></div></div>
+        <nav class="route" aria-label="Шаги сценария"><a href="#install" aria-current="step">Установка</a><a href="#model">Модель</a><a href="#generating">Запрос</a><a href="#answer">Ответ</a><a href="#catalog">Каталог</a><a href="#error">Ошибка</a></nav>
       </div>
       <div class="beats">
-        <article class="beat" data-scene="install">
-          <p class="meta">01 / Скачивание</p><h3>Сначала<br>лендинг</h3><p>С первого экрана можно сразу перейти к скачиванию. Если нужно больше информации, меню ведёт к возможностям, моделям и FAQ.</p><img class="mobile-scene" src="media/download.png" alt="Блок установки" loading="lazy"><a class="quiet" href="prototype/">Открыть лендинг в прототипе ↗</a>
+        <article class="beat" id="install" data-scene="install">
+          <p class="meta">01 / Скачивание</p><h3>Сначала<br>лендинг</h3><p>С первого экрана можно сразу перейти к скачиванию. Если нужно больше информации, меню ведёт к возможностям, моделям и FAQ.</p><p class="scene-detail">Список разделён на Desktop и Mobile. Пользователь сначала находит свою платформу, затем выбирает подходящий вариант установки.</p><img class="mobile-scene" src="media/download.webp" alt="Блок установки" loading="lazy"><a class="quiet" href="prototype/">Открыть лендинг в прототипе ↗</a>
         </article>
-        <article class="beat" data-scene="model">
+        <article class="beat" id="model" data-scene="model">
           <p class="meta">02 / Выбор модели</p><h3>Модель<br>видна сразу</h3><p>New Chat начинается с выбора модели. В списке разведены локальные и облачные варианты, а текущая модель отмечена галочкой.</p><img class="mobile-scene" src="prototype/assets/final-02.png" alt="Список моделей" loading="lazy"><a class="quiet" href="prototype/?step=02">Открыть выбор модели ↗</a>
         </article>
-        <article class="beat" data-scene="answer">
-          <p class="meta">03 / Ответ</p><h3>Из запроса<br>в диалог</h3><p>Пользователь отправляет запрос и видит состояние генерации. Ответ появляется в истории диалога. Поле следующего сообщения остаётся внизу.</p><img class="mobile-scene" src="prototype/assets/final-04.png" alt="Диалог после получения ответа" loading="lazy"><a class="quiet" href="prototype/?step=04">Открыть диалог ↗</a>
+        <article class="beat" id="generating" data-scene="generating">
+          <p class="meta">03 / Генерация</p><h3>Запрос<br>отправлен</h3><p>Текст запроса остаётся в истории, а под ним появляется состояние генерации. Пользователь видит, что запрос принят, и может остановить ответ из поля ввода.</p><img class="mobile-scene" src="prototype/assets/final-03.png" alt="Диалог во время генерации" loading="lazy"><a class="quiet" href="prototype/?step=03">Попробовать отправку ↗</a>
         </article>
-        <article class="beat" data-scene="catalog">
-          <p class="meta">04 / Каталог</p><h3>Если модели<br>ещё нет</h3><p>В каталоге можно запустить загрузку, увидеть её прогресс и вернуться в чат после завершения. Если поиск ничего не нашёл, запрос можно очистить прямо на экране результата.</p><img class="mobile-scene" src="prototype/assets/final-1.png" alt="Прогресс загрузки модели" loading="lazy"><a class="quiet" href="prototype/?step=06">Открыть каталог ↗</a>
+        <article class="beat" id="answer" data-scene="answer">
+          <p class="meta">04 / Ответ</p><h3>Диалог<br>можно продолжить</h3><p>Ответ появляется под запросом. Рядом с ним доступны действия с сообщением, а поле следующего сообщения остаётся внизу.</p><img class="mobile-scene" src="prototype/assets/final-04.png" alt="Диалог после получения ответа" loading="lazy"><a class="quiet" href="prototype/?step=04">Открыть диалог ↗</a>
         </article>
-        <article class="beat" data-scene="error">
-          <p class="meta">05 / Восстановление</p><h3>После ошибки<br>есть выход</h3><p>При остановке генерации можно повторить запрос или сменить модель. Если облачный ключ не принят, приложение предлагает повторить подключение или вернуться к локальному режиму.</p><img class="mobile-scene" src="prototype/assets/final-05.png" alt="Ошибка генерации и варианты восстановления" loading="lazy"><a class="quiet" href="prototype/?step=05">Проверить повтор запроса ↗</a>
+        <article class="beat" id="catalog" data-scene="catalog">
+          <p class="meta">05 / Ветка каталога</p><h3>Если модели<br>ещё нет</h3><p>В каталоге видно, какую модель загружают и сколько уже скачалось. Загрузку можно остановить или отменить. После завершения можно вернуться в чат.</p><img class="mobile-scene" src="prototype/assets/final-1.png" alt="Прогресс загрузки модели" loading="lazy"><a class="quiet" href="prototype/?step=06">Открыть каталог ↗</a><a class="quiet" href="prototype/?step=07">Посмотреть пустой результат поиска ↗</a>
+        </article>
+        <article class="beat" id="error" data-scene="error">
+          <p class="meta">06 / Ветка восстановления</p><h3>Запрос можно<br>повторить</h3><p>Сообщение об ошибке остаётся в диалоге рядом с запросом. Retry отправляет его снова, Switch model возвращает к выбору модели. Для ошибки облачного ключа есть отдельный возврат к локальному режиму.</p><img class="mobile-scene" src="prototype/assets/final-05.png" alt="Ошибка генерации и варианты восстановления" loading="lazy"><a class="quiet" href="prototype/?step=05">Проверить повтор запроса ↗</a><a class="quiet" href="prototype/?step=10">Посмотреть ошибку подключения ↗</a>
         </article>
       </div>
     </div>
@@ -90,7 +93,7 @@
 
   <section class="wrap section system" id="system">
     <div class="lead reveal"><p class="meta">Визуальная система</p><h2>Один рабочий<br>интерфейс</h2><p>На лендинге модели сходятся к знаку Atomic. В приложении та же идея выражена постоянной навигацией: чат, каталог, подключения и инструменты доступны из одного окна.</p></div>
-    <figure class="reveal system-image"><img src="media/concept.png" width="1440" height="891" alt="Модели вокруг знака Atomic Chat" loading="lazy"></figure>
+    <figure class="reveal system-image"><img src="media/concept.webp" width="1440" height="891" alt="Модели вокруг знака Atomic Chat" loading="lazy"></figure>
     <div class="details thirds reveal">
       <div><h3>Типографика и навигация</h3><p>Overused Grotesk для интерфейса, JetBrains Mono для команд и технических значений. Сайдбар показывает активный раздел, иконки Vuesax выдержаны в одном начертании.</p></div>
       <div><h3>Фон и поверхности</h3><p>Тон отделяет фон, панели, поля и кнопки. На лендинге белая кнопка выделяет скачивание.</p></div>
@@ -130,6 +133,10 @@
     </div>
   </section>
 </main>
+<dialog class="image-dialog" id="image-dialog" aria-labelledby="zoom-title">
+  <header><strong id="zoom-title">Экран Atomic Chat</strong><div><button id="zoom-out" type="button" aria-label="Уменьшить">−</button><button id="zoom-in" type="button" aria-label="Приблизить">+</button><form method="dialog"><button type="submit">Закрыть</button></form></div></header>
+  <div class="image-viewport" tabindex="0"><img alt=""></div>
+</dialog>
 <footer class="wrap footer"><span>Константин Даровский</span><a class="quiet" href="#top">Наверх ↑</a></footer>
 </body>
 </html>
