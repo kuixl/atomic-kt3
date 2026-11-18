@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atomic Chat · Производственная практика</title>
+<link rel="icon" href="../media/icon.png">
+<style>
+@font-face{font-family:Overused;src:url(assets/overused.ttf);font-weight:400;font-display:swap}
+@font-face{font-family:Overused;src:url(assets/overused-bold.ttf);font-weight:700;font-display:swap}
+:root{font-family:Overused,Arial,sans-serif;color:#14171c;background:#f5f6f8;--blue:#164fe6;scroll-behavior:smooth}
+*{box-sizing:border-box}body{margin:0}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible{outline:3px solid #5286ff;outline-offset:5px}h1,h2,h3,p,figure{margin:0}img{display:block}header{position:sticky;top:0;z-index:10;background:#f9fafbd9;backdrop-filter:blur(18px);padding:16px clamp(18px,5vw,80px);display:flex;align-items:center;justify-content:space-between;gap:22px;font-size:15px}nav{display:flex;gap:23px}nav a{color:#515965}nav a:hover{color:var(--blue)}.brand{font-weight:700;white-space:nowrap}
+.wrap{max-width:1440px;padding:0 clamp(20px,5.5vw,80px);margin:auto}section{padding:88px 0;scroll-margin-top:65px}.hero{padding-top:80px}h1{font-size:clamp(65px,11vw,152px);line-height:.87;letter-spacing:-.075em;font-weight:700}h1 span{color:var(--blue)}h2{font-size:clamp(38px,6.1vw,82px);line-height:1;letter-spacing:-.055em;max-width:19ch}.intro{margin:30px 0 34px;font-size:clamp(21px,2.8vw,34px);line-height:1.2;max-width:27ch;letter-spacing:-.025em}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.button{display:inline-flex;gap:14px;align-items:center;padding:14px 22px;border:0;border-radius:100px;background:var(--blue);color:white;font-size:17px;transition:background .16s,transform .16s}.button:hover{background:#0c3ccd;transform:translateY(-2px)}.button:active{transform:translateY(0)}.button.secondary{background:#e3e7ee;color:#263043}.button.secondary:hover{background:#d8dfea}.hero-photo{margin-top:45px;background:#050505;border-radius:24px;overflow:hidden}.hero-photo img{width:100%;height:auto}
+.heading-row{display:flex;justify-content:space-between;align-items:end;gap:35px;margin-bottom:32px}.heading-row p{max-width:33ch;font-size:21px;line-height:1.35;color:#505761}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;background:#e5e9ef;padding:5px;border-radius:100px;width:max-content;max-width:100%;margin-bottom:20px}.tabs button{background:transparent;color:#434b59;border:0;border-radius:100px;padding:11px 20px;font-size:16px;transition:background .17s,color .17s,box-shadow .17s}.tabs button[aria-pressed=true]{background:#fff;color:#131a27;box-shadow:0 2px 6px #1a284d15}.viewport-wrap{background:#e9edf4;border-radius:26px;padding:24px}.stage-toolbar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:16px;color:#4a5262;font-size:15px}.quiet{border:0;background:transparent;padding:7px;color:var(--blue);font:inherit;cursor:pointer}.quiet:hover{text-decoration:underline;text-underline-offset:4px}
+.viewport{height:min(760px,78svh);overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;background:#15171c;border-radius:12px;position:relative}.adaptive-image{width:100%;max-width:1440px;height:auto;margin:auto}.viewport[data-device=tablet] .adaptive-image{width:min(100%,768px)}.viewport[data-device=mobile] .adaptive-image{width:min(100%,390px)}
+.caption{display:flex;justify-content:space-between;gap:15px;margin-top:14px;font-size:16px;color:#505761}.caption span{max-width:65ch}.screen-frame{background:#060606;border-radius:22px;overflow:hidden}.screen-frame img{width:100%;aspect-ratio:1440/900;object-fit:contain}
+.changes{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;margin-top:28px}.changes h3{font-size:25px;letter-spacing:-.035em;margin-bottom:8px}.changes p{color:#505761;font-size:18px;line-height:1.4}.download-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:35px}.download{display:flex;flex-direction:column;align-items:start;justify-content:space-between;gap:25px;min-height:230px;padding:30px;background:#fff;border-radius:24px}.download h3{font-size:31px;letter-spacing:-.04em;line-height:1.06}.download p{font-size:18px;color:#535d6b;margin-top:12px}.text-section{max-width:68ch;margin-top:25px;font-size:21px;line-height:1.4;color:#505761}.end{padding-top:30px;padding-bottom:45px;font-size:16px;color:#69717e}
+dialog{width:min(1500px,96vw);max-width:96vw;max-height:94svh;padding:18px;background:#f7f8fa;color:#14171c;border:0;border-radius:22px;box-shadow:0 24px 100px #0006}dialog::backdrop{background:#151c2ab8;backdrop-filter:blur(8px)}.zoom-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.zoom-toolbar h2{font-size:21px;letter-spacing:-.02em}.zoom-toolbar>div{display:flex;gap:12px}.zoom-toolbar button{border:0;background:#e6eaf1;border-radius:100px;padding:10px 15px;font:inherit}.zoom-viewport{height:76svh;overflow:auto;overscroll-behavior:contain;border-radius:9px;background:#080808}.zoom-image{width:100%;max-width:none;height:auto}.zoom-viewport.mobile .zoom-image{width:390px;max-width:100%;margin:auto}.zoom-viewport.enlarged .zoom-image{width:150%;max-width:none}.zoom-viewport.mobile.enlarged .zoom-image{width:780px}
+.swap{animation:screen-in .25s cubic-bezier(.22,.75,.18,1)}@keyframes screen-in{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:720px){header{padding:14px 18px;gap:10px}nav{gap:12px;font-size:13px}nav a:first-child{display:none}.heading-row{display:block}.heading-row p{margin-top:20px}.viewport-wrap{padding:12px;border-radius:19px}.stage-toolbar{font-size:13px}.caption{display:block}.changes{grid-template-columns:1fr;gap:22px}.download-grid{grid-template-columns:1fr}.tabs{border-radius:18px}.tabs button{padding:9px 12px;font-size:14px}section{padding:60px 0}.hero{padding-top:55px}.hero-photo{border-radius:15px}.zoom-toolbar h2{font-size:17px}.zoom-toolbar button{padding:9px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="#top">Atomic Chat</a><nav aria-label="Разделы показа"><a href="#project">Проект</a><a href="#adaptive">Адаптивы</a><a href="#flow">Сценарий</a><a href="#materials">Материалы</a></nav></header>
+<main id="top" class="wrap">
+<section class="hero" id="project">
+<h1>Atomic <span>Chat</span></h1><p class="intro">Лендинг и рабочий интерфейс. От скачивания до первого диалога.</p>
+<div class="actions"><a class="button" href="#adaptive">Рассмотреть адаптивы <span aria-hidden="true">↓</span></a><a class="button secondary" href="../prototype/">Пройти прототип <span aria-hidden="true">↗</span></a></div>
+<figure class="hero-photo"><img src="assets/hero.png" alt="Первый экран лендинга Atomic Chat с кнопкой Download for mac" width="1440" height="724"></figure>
+</section>
+<section id="adaptive">
+<div class="heading-row"><h2>Каждая ширина отдельно.</h2><p>Переключайте версии и прокручивайте макет внутри окна. Кнопка «Увеличить» открывает экран поверх страницы.</p></div>
+<div class="tabs device-tabs" aria-label="Ширина лендинга"><button aria-pressed="true" data-device="desktop">Десктоп · 1440</button><button aria-pressed="false" data-device="tablet">Планшет · 768</button><button aria-pressed="false" data-device="mobile">Телефон · 390</button></div>
+<div class="viewport-wrap">
+<div class="stage-toolbar"><span class="device-note">Десктоп · три колонки и полная навигация</span><button class="quiet" data-zoom="adaptive">Увеличить макет ↗</button></div>
+<div class="viewport" data-device="desktop" tabindex="0" aria-label="Прокручиваемый макет лендинга"><img class="adaptive-image" src="assets/desktop.webp" alt="Лендинг Atomic Chat шириной 1440 пикселей" width="1440" height="9794"></div>
+</div>
+<div class="changes"><div><h3>Навигация</h3><p>На телефоне разделы открываются через меню. Отдельный экран показывает его раскрытое состояние.</p><button class="quiet" data-zoom="menu">Открыть мобильное меню ↗</button></div><div><h3>Переносы</h3><p>Заголовки и пояснения перестраиваются под ширину. Их можно сравнить на одном и том же участке страницы.</p></div><div><h3>Главное действие</h3><p>Кнопка скачивания остаётся на первом экране во всех версиях. Ниже можно выбрать платформу.</p></div></div>
+</section>
+<section id="flow">
+<div class="heading-row"><h2>Выбрать модель. Начать диалог.</h2><p>Откройте нужное состояние. В увеличении можно рассмотреть подписи и кнопки.</p></div>
+<div class="tabs state-tabs" aria-label="Экраны приложения"><button data-screen="01" aria-pressed="true">Новый диалог</button><button data-screen="02" aria-pressed="false">Модель</button><button data-screen="04" aria-pressed="false">Ответ</button><button data-screen="05" aria-pressed="false">Ошибка</button><button data-screen="09" aria-pressed="false">Подключение</button><button data-screen="12" aria-pressed="false">Skills</button></div>
+<figure class="screen-frame"><img class="state-image" src="assets/final-01.png" width="1440" height="900" alt="Новый диалог Atomic Chat"></figure>
+<div class="caption"><span class="state-caption">Выбор модели и поле сообщения остаются в основной области.</span><button class="quiet" data-zoom="state">Увеличить экран ↗</button></div>
+<div class="actions" style="margin-top:25px"><a class="button" href="../prototype/?step=01">Пройти сценарий ↗</a><a class="button secondary" href="../prototype/?step=05">Проверить Retry ↗</a></div>
+</section>
+<section id="materials">
+<h2>Материалы к практике.</h2>
+<div class="download-grid">
+<article class="download"><div><h3>Промежуточный показ</h3><p>Семь слайдов для КТ1. На адаптивах показаны крупные фрагменты.</p></div><a class="button" href="downloads/mid-review.pdf">Открыть PDF ↗</a></article>
+<article class="download"><div><h3>Пояснительная записка</h3><p>Две главы, заключение, 22 источника и приложения.</p></div><a class="button" href="downloads/report.pdf">Открыть ПЗ ↗</a></article>
+</div>
+<p class="text-section">Проект разработан Константином Даровским для Boiler Lab. Лендинг подготовлен по запросу заказчика, затем диплом расширен доработкой интерфейса существующего приложения. К первому показу готовы макеты и прототип. На обсуждении предстоит уточнить замечания преподавателя.</p>
+<a class="quiet" style="display:inline-block;margin-top:18px" href="https://www.figma.com/design/ORqzIhcBUxW2lnEen9ymcQ/Untitled?node-id=51-25780" target="_blank" rel="noopener">Исходные макеты в Figma ↗</a>
+</section>
+</main>
+<footer class="wrap end">Производственная практика · 4ЦД-ВД1.23</footer>
+<dialog aria-labelledby="zoom-title"><div class="zoom-toolbar"><h2 id="zoom-title">Макет</h2><div><button class="zoom-toggle" aria-pressed="false">Приблизить</button><button class="zoom-close">Закрыть</button></div></div><div class="zoom-viewport"><img class="zoom-image" alt=""></div></dialog>
+<script>
+const $=s=>document.querySelector(s);
+const deviceText={desktop:'Десктоп · полная навигация',tablet:'Планшет · перестройка блоков',mobile:'Телефон · меню и переносы текста'};
+const captions={'01':'Выбор модели и поле сообщения остаются в основной области.','02':'В раскрытом списке выбирается локальная модель или внешнее подключение.','04':'Ответ показан рядом с запросом. Под сообщением доступны повторяемые действия.','05':'После ошибки можно повторить запрос или сменить модель.','09':'Внешний провайдер настраивается в отдельном разделе.','12':'Инструменты включаются переключателями.'};
+let device='desktop',screen='01',opener;
+function swap(image,src,alt){image.classList.remove('swap');image.src=src;image.alt=alt;requestAnimationFrame(()=>image.classList.add('swap'))}
+document.querySelectorAll('[data-device]').forEach(b=>{if(b.tagName!=='BUTTON')return;b.addEventListener('click',()=>{
+ device=b.dataset.device;document.querySelectorAll('.device-tabs button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ $('.viewport').dataset.device=device;$('.viewport').scrollTo(0,0);$('.device-note').textContent=deviceText[device];
+ swap($('.adaptive-image'),'assets/'+device+'.webp','Лендинг Atomic Chat · '+device);
+})});
+document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>{
+ screen=b.dataset.screen;document.querySelectorAll('[data-screen]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ swap($('.state-image'),'assets/final-'+screen+'.png',b.textContent+' Atomic Chat');$('.state-caption').textContent=captions[screen];
+}));
+const dialog=$('dialog'),zoomViewport=$('.zoom-viewport'),toggle=$('.zoom-toggle');
+document.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{
+ opener=b;zoomViewport.classList.remove('enlarged','mobile');toggle.setAttribute('aria-pressed','false');toggle.textContent='Приблизить';
+ const type=b.dataset.zoom;
+ const target=type==='adaptive'?$('.adaptive-image'):type==='state'?$('.state-image'):null;
+ $('.zoom-image').src=target?target.src:'assets/menu.png';$('.zoom-image').alt=target?target.alt:'Открытое меню лендинга';
+ $('#zoom-title').textContent=type==='adaptive'?deviceText[device]:type==='state'?$('.state-tabs [aria-pressed=true]').textContent:'Мобильное меню';
+ zoomViewport.classList.toggle('mobile',type==='menu'||(type==='adaptive'&&device==='mobile'));
+ dialog.showModal();zoomViewport.scrollTo(0,0);
+}));
+toggle.addEventListener('click',()=>{const enlarged=zoomViewport.classList.toggle('enlarged');toggle.setAttribute('aria-pressed',String(enlarged));toggle.textContent=enlarged?'Уместить':'Приблизить'});
+$('.zoom-close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));
+</script>
+</body>
+</html>
